@@ -16,3 +16,17 @@ int main() {
 
     return 0;
 }
+
+namespace crsp {
+
+void initialize_crsp() {
+    // In the future: load IMEM, set PC, config logging
+    std::cout << "[CRSP] System initialized.\n";
+}
+
+void shutdown_crsp() {
+    // In the future: save logs, clean state, etc.
+    std::cout << "[CRSP] System shutdown complete.\n";
+}
+
+}
