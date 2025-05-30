@@ -1,2 +1,2 @@
-# CRSP
-CRSP is an RSP Cycle Accuracy for Nintendo 64 Emulation
+# CRSP (Cycle Reality Signal Procesor)
+we are working sorry
