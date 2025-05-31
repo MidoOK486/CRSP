@@ -17,7 +17,7 @@ CRSP (Cycle RSP) is a **low-level (LLE)** software renderer and plugin that simu
 
 ## 🚀 Goals
 
-- ✅ Support all N64 games, ROM hacks, and homebrew titles
+- ✅ Support all N64 games, ROM hacks, mods and homebrew titles
 - ✅ Instruction timing accuracy
 - ✅ Accurate behavior in all edge cases (e.g., undefined opcodes, pipeline stalls)
 - ✅ Modular design to replace or extend existing emulator RSP plugins
