@@ -27,7 +27,7 @@ CRSP (Cycle RSP) is a **low-level (LLE)** software renderer and plugin that simu
 
 ## 🔧 Build & Install
 
-See [CRSP_build_instructions.md](CRSP_build_instructions.md) for full instructions.
+See [CRSP_build_instructions.txt](CRSP_build_instructions.txt) for full instructions.
 
 Supported:
 - Windows (Win32 & Win64)
