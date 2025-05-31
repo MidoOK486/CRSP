@@ -1,0 +1,149 @@
+===============================
+CRSP Project Build Instructions
+===============================
+
+Version: CRSP v1.0
+
+This document helps users build and install CRSP for:
+
+- Windows 32-bit (Win32)
+- Windows 64-bit (Win64)
+- Linux 32-bit (x86)
+- Linux 64-bit (x64)
+
+===========================
+Prerequisites by Platform:
+===========================
+
+Windows:
+--------
+- Visual Studio 2022 Community Edition
+- CMake 3.16 or newer (you can use CMake 4.0.0)
+- Developer Command Prompt for VS 2022
+
+Linux (Ubuntu/Debian):
+-----------------------
+- g++, gcc, and make
+- CMake 3.16 or newer
+- 32-bit support (for x86 builds): install multilib toolchain
+
+Example for 32-bit support on Linux:
+
+    sudo apt update
+    sudo apt install g++-multilib gcc-multilib
+
+===========================
+Build Instructions
+===========================
+
+---------------------------
+Windows (Win64) Build:
+---------------------------
+1. Open Developer Command Prompt for VS 2022
+2. Run the following:
+
+    cd path\\to\\CRSP
+    mkdir build_win64
+    cd build_win64
+    cmake .. -G "Visual Studio 17 2022" -A x64
+    cmake --build . --config Release
+
+3. The DLL will be here:
+
+    CRSP\\build_win64\\bin\\Release\\CRSP.dll
+
+---------------------------
+Windows (Win32) Build:
+---------------------------
+1. Open Developer Command Prompt for VS 2022
+2. Run the following:
+
+    cd path\\to\\CRSP
+    mkdir build_win32
+    cd build_win32
+    cmake .. -G "Visual Studio 17 2022" -A Win32
+    cmake --build . --config Release
+
+3. The DLL will be here:
+
+    CRSP\\build_win32\\bin\\Release\\CRSP.dll
+
+---------------------------
+Linux (x64) Build:
+---------------------------
+1. Open a terminal
+2. Run the following:
+
+    cd /path/to/CRSP
+    mkdir build_linux64
+    cd build_linux64
+    cmake ..
+    make
+
+3. The shared library (.so) will be here:
+
+    CRSP/build_linux64/bin/libCRSP.so
+
+---------------------------
+Linux (x86 - 32-bit) Build:
+---------------------------
+1. Install multilib support:
+
+    sudo apt install g++-multilib gcc-multilib
+
+2. Run the following:
+
+    cd /path/to/CRSP
+    mkdir build_linux32
+    cd build_linux32
+    cmake -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 ..
+    make
+
+3. The shared library (.so) will be here:
+
+    CRSP/build_linux32/bin/libCRSP.so
+
+===========================
+Testing the Build
+===========================
+
+Windows:
+--------
+- Use the DLL with a compatible N64 emulator or custom test app.
+- The DLL is in the bin\\Release folder.
+
+Linux:
+------
+- Use `ldd` to check dependencies:
+
+    ldd libCRSP.so
+
+- Load `.so` into a compatible application or emulator.
+
+===========================
+Tips & Notes
+===========================
+
+- Your CMakeLists.txt must use:
+
+    add_library(CRSP SHARED ...)
+
+- Header files must use an export macro for Windows:
+
+    #ifdef _WIN32
+    #  ifdef CRSP_EXPORTS
+    #    define CRSP_API __declspec(dllexport)
+    #  else
+    #    define CRSP_API __declspec(dllimport)
+    #  endif
+    #else
+    #  define CRSP_API
+    #endif
+
+- Add this to include/export.h
+
+===========================
+Thank You for Using CRSP!
+===========================
+
+Report bugs or issues to the developer.
