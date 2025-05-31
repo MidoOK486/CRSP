@@ -1,9 +1,18 @@
-// CRSP/include/core/rsp_core.h
 #pragma once
+
+#ifdef _WIN32
+  #ifdef CRSP_EXPORTS
+    #define CRSP_API __declspec(dllexport)
+  #else
+    #define CRSP_API __declspec(dllimport)
+  #endif
+#else
+  #define CRSP_API __attribute__((visibility("default")))
+#endif
 
 namespace crsp {
 
-// Main entry point to begin RSP execution
-void run_cycle();
+// Exported public API
+CRSP_API void run_cycle();
 
 }
