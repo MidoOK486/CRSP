@@ -14,7 +14,7 @@ Linux (Ubuntu/Debian):
 
 -------------------------------------------------
 
-Building on Windows (Win64):
+Building on Windows:
 ----------------------------
 1. Open "Developer Command Prompt for VS 2022"
 2. Navigate to the CRSP project folder:
