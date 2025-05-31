@@ -1,3 +1,5 @@
 # CRSP (Cycle Reality Signal Procesor)
-More Files More Accurate  
-Real RSP
+play N64 emulator with CRSP
+
+## Developer
+MidoOK486 (known as Mido) Founder
