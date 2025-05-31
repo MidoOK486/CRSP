@@ -1,56 +1,33 @@
-cmake_minimum_required(VERSION 3.15)
-project(CRSP VERSION 1.0 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.16)
+project(CRSP VERSION 1.0 LANGUAGES C CXX)
 
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Optionally build static or shared (default: shared)
-option(CRSP_BUILD_STATIC "Build CRSP as a static library" OFF)
-
-# Output path customization (optional)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-# Collect all .cpp source files recursively
-file(GLOB_RECURSE CRSP_SRC
-    "src/*.cpp"
-)
-
-# Header include path
-include_directories(${CMAKE_SOURCE_DIR}/include)
-
-# Choose library type
-if(CRSP_BUILD_STATIC)
-    add_library(CRSP STATIC ${CRSP_SRC})
-else()
-    add_library(CRSP SHARED ${CRSP_SRC})
-    target_compile_definitions(CRSP PRIVATE CRSP_EXPORTS)
+# Set default to Release build if not specified
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 
-# Set output library name and version
-set_target_properties(CRSP PROPERTIES
-    OUTPUT_NAME "CRSP"
-    VERSION ${PROJECT_VERSION}
-    SOVERSION 1
-    PUBLIC_HEADER ""
+# Set output directory for DLLs and SOs
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Release)
+
+# Add the main CRSP shared library
+add_library(CRSP SHARED
+    src/core/rsp_core.cpp
+    src/execute/execute.cpp
+    src/main.cpp
+    # Add more source files here as needed
 )
 
-# Optional install step
-install(TARGETS CRSP
-    EXPORT CRSPTargets
-    RUNTIME DESTINATION bin           # Windows DLL
-    LIBRARY DESTINATION lib           # Linux SO
-    ARCHIVE DESTINATION lib           # Static .a or .lib
+# Include directories (add all folders with public headers)
+target_include_directories(CRSP
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/include
 )
 
-install(DIRECTORY include/ DESTINATION include
-        FILES_MATCHING PATTERN "*.h")
+# Define export symbol for Windows DLL
+target_compile_definitions(CRSP PRIVATE CRSP_EXPORTS)
 
-# Optional export targets (for find_package)
-install(EXPORT CRSPTargets
-    FILE CRSPConfig.cmake
-    NAMESPACE CRSP::
-    DESTINATION lib/cmake/CRSP
-)
+# Set C++ standard
+target_compile_features(CRSP PRIVATE cxx_std_17)
+
+# Optional: install rules if needed later
+# install(TARGETS CRSP DESTINATION lib)
