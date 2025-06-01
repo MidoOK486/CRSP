@@ -1,6 +1,6 @@
 # 🟣 CRSP – Cycle RSP
 
-> 🕹️ A Cycle-Accurate Reality Signal Processor (RSP) plugin for the Nintendo 64, targeting perfection in every N64 game, ROM hack, and homebrew.  
+> 🕹️ A Cycle-Accurate Reality Signal Processor (RSP) plugin for the Nintendo 64, targeting perfection in every N64 game, ROM hack, mod and homebrew.  
 > Built from scratch for extreme accuracy — not just compatibility. This is **CYCLE RSP**, reborn.
 
 ---
