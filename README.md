@@ -48,14 +48,3 @@ make
 This project is licensed under the **SGI Free Software License B Version 2.0**.
 
 You can find the full license text in the [LICENSE](LICENSE) file.
-
----
-
-### Summary
-
-- Permission is granted to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
-- The copyright notice and this license must be included in all copies or substantial portions of the Software.
-- The software is provided "as is," without any warranty.
-- The name "Silicon Graphics, Inc." cannot be used to promote derived products without prior written permission.
-
-For more details, please see the full license in the LICENSE file.
