@@ -1,45 +1,49 @@
-// CRSP/src/core/rsp_core.cpp
-
-#include "core/rsp_core.h"
-#include "decode/decoder.h"
-#include "instructions/execute.h"
-#include "memory/imem.h"
-#include "state/rsp_state.h"
-#include "timing/cycle_counter.h"
-#include <iostream>
+#include "rsp_core.h"
+#include "fetch.h"
+#include "opcode_decode.h"
+#include "scalar_opcodes.h"
+#include "vector_opcodes.h"
+#include <cstdio>
 
 namespace crsp {
 
 void run_cycle() {
-    // Reset the RSP state before starting execution
-    reset_rsp_state();
+    // Fetch instruction
+    uint32_t raw_instr = fetch_instruction();
 
-    while (true) {
-        // Fetch 32-bit instruction from IMEM at current PC
-        uint32_t raw_instr = fetch_instruction(rsp_state.pc);
+    // Decode instruction
+    DecodedOpcode decoded = decode_instruction(raw_instr);
 
-        // Decode the instruction
-        DecodedInstruction instr = decode_instruction(raw_instr);
-
-        // Execute the instruction
-        try {
-            execute_instruction(instr);
-        } catch (const std::exception& e) {
-            std::cerr << "Execution error at PC 0x"
-                      << std::hex << rsp_state.pc << ": " << e.what() << std::endl;
+    // Dispatch based on major opcode
+    switch (decoded.opcode) {
+        case 0x00: // SPECIAL (scalar)
+            execute_scalar_special(decoded);
             break;
-        }
 
-        // Advance PC to next instruction (4 bytes)
-        rsp_state.pc += 4;
-
-        // Advance cycle counter (this will eventually vary per instruction)
-        cycle_counter.advance(1);
-
-        // Example stop condition (in real RSP, HALT or signal would do this)
-        if (rsp_state.pc >= 0x1000) {
+        case 0x08: // ADDI
+        case 0x09: // ADDIU
+        case 0x0C: // ANDI
+        case 0x0D: // ORI
+        case 0x0F: // LUI
+        case 0x23: // LW
+        case 0x2B: // SW
+            execute_scalar_memory(decoded);
             break;
-        }
+
+        case 0x04: // BEQ
+        case 0x05: // BNE
+        case 0x06: // BLEZ
+        case 0x07: // BGTZ
+            execute_scalar_branch(decoded);
+            break;
+
+        case 0x12: // COP2
+            execute_vector_unit(decoded);
+            break;
+
+        default:
+            printf("[CRSP] Unknown opcode 0x%02X\n", decoded.opcode);
+            break;
     }
 }
 
